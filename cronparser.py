@@ -42,6 +42,15 @@ class CronTab(object):
         month         4
         day of week   5
         command       ls -la
+        >>> foo = CronTab('1 2 3 4 5 1997 ls -la')
+        >>> print foo
+        minute        1
+        hour          2
+        day of month  3
+        month         4
+        day of week   5
+        year          1997
+        command       ls -la
         >>> foo = CronTab('1 * 3 4 5 ls -la')
         >>> print foo
         minute        1
@@ -67,6 +76,15 @@ class CronTab(object):
         # split along whitespace into 6 fields, last field as long as needed
         try:
             split = crontab.split(None, 5)
+
+            # 1997 ls -la
+            try:
+                self.year, command = split[5].split(None, 1)
+                int(self.year)
+                split[5] = command
+            except ValueError:
+                self.year = None
+                pass
 
             # the 'validate_*' methods are pretty gross, in that they change
             # object attributes, then return a bool. also causing this nesting
@@ -96,6 +114,10 @@ class CronTab(object):
         ret_string += '%-14s%s\n' % ('day of month', self.day_of_month)
         ret_string += '%-14s%s\n' % ('month', self.month)
         ret_string += '%-14s%s\n' % ('day of week', self.day_of_week)
+
+        if self.year:
+            ret_string += '%-14s%s\n' % ('year', self.year)
+
         ret_string += '%-14s%s' % ('command', self.command)
 
         return ret_string
