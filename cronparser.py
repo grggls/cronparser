@@ -134,7 +134,7 @@ class CronTab(object):
             elif self.minute.find('*') >= 0:
                 self.minute = self._expand_all(self.minute, 0, 59)
 
-        # check our methods didn't return empty strings (indicative of err)
+        # check our methods didn't return None (indicative of err)
         return True if self.minute else False
 
     def validate_hour(self):
@@ -172,7 +172,7 @@ class CronTab(object):
             elif self.hour.find('*') >= 0:
                 self.hour = self._expand_all(self.hour, 0, 23)
 
-        # check our methods didn't return empty strings (indicative of err)
+        # check our methods didn't return None (indicative of err)
         return True if self.hour else False
 
     def validate_day_of_month(self):
@@ -211,7 +211,7 @@ class CronTab(object):
             elif self.day_of_month.find('*') >= 0:
                 self.day_of_month = self._expand_all(self.day_of_month, 0, 31)
 
-        # check our methods didn't return empty strings (indicative of err)
+        # check our methods didn't return None (indicative of err)
         return True if self.day_of_month else False
 
     def validate_month(self):
@@ -251,7 +251,7 @@ class CronTab(object):
             else:
                 pass
 
-        # check our methods didn't return empty strings (indicative of err)
+        # check our methods didn't return None (indicative of err)
         return True if self.month else False
 
     def validate_day_of_week(self):
@@ -291,7 +291,7 @@ class CronTab(object):
             else:
                 pass
 
-        # check our methods didn't return empty strings (indicative of err)
+        # check our methods didn't return None (indicative of err)
         return True if self.day_of_week else False
 
     def _expand_range(self, range_string, range_min, range_max):
@@ -303,7 +303,7 @@ class CronTab(object):
 
         Validate this is valid input (e.g. '0-8' is not valid day of week range)
 
-        Retun an empty string to indicate an out of range error to the caller
+        Retun an None to indicate an out of range error to the caller
         >>> foo = CronTab('* * * * * ls -la')
         >>> foo._expand_range('1-3', 1, 7)
         '1 2 3'
@@ -345,7 +345,7 @@ class CronTab(object):
 
         Validate that this is valid input (e.g. */27 is not valid for hours)
 
-        Return theempty string to indicate an out of range error to the caller
+        Return None to indicate an out of range error to the caller
         >>> foo = CronTab('* * * * * ls -la')
         >>> foo._expand_div('*/4', 0, 23)
         '0 4 8 12 16 20'
@@ -398,7 +398,7 @@ class CronTab(object):
         Verify that 'list_string' conforms to '1,2,3' syntax, expand to white-
         space delimited list (no commas).
 
-        Return the empty string to indicate any error to the caller
+        Return None to indicate any error to the caller
         >>> foo = CronTab('* * * * * ls -la')
         >>> foo._expand_list('1,2,3', 1, 7)
         '1 2 3'
@@ -431,7 +431,7 @@ class CronTab(object):
 
         Hopefully requires much less error checking than the previous two methods
 
-        Return the empty string to indicate an out of range error to the caller
+        Return None to indicate an out of range error to the caller
         >>> foo = CronTab('* * * * * ls -la')
         >>> foo._expand_all('*', 1, 7)
         '1 2 3 4 5 6 7'
