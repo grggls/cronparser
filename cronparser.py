@@ -124,17 +124,18 @@ class CronTab(object):
         >>> foo.validate_minute()
         False
         """
-        if self.minute.find('-') >= 0:
-            self.minute = self._expand_range(self.minute, 0, 59)
-        elif self.minute.find('/') >= 0:
-            self.minute = self._expand_div(self.minute, 0, 59)
-        elif self.minute.find(',') >= 0:
-            self.minute = self._expand_list(self.minute, 0, 59)
-        elif self.minute.find('*') >= 0:
-            self.minute = self._expand_all(self.minute, 0, 59)
+        if self.minute:
+            if self.minute.find('-') >= 0:
+                self.minute = self._expand_range(self.minute, 0, 59)
+            elif self.minute.find('/') >= 0:
+                self.minute = self._expand_div(self.minute, 0, 59)
+            elif self.minute.find(',') >= 0:
+                self.minute = self._expand_list(self.minute, 0, 59)
+            elif self.minute.find('*') >= 0:
+                self.minute = self._expand_all(self.minute, 0, 59)
 
         # check our methods didn't return empty strings (indicative of err)
-        return False if self.minute == '' else True
+        return True if self.minute else False
 
     def validate_hour(self):
         """
@@ -161,17 +162,18 @@ class CronTab(object):
         >>> foo.validate_hour()
         False
         """
-        if self.hour.find('-') >= 0:
-            self.hour = self._expand_range(self.hour, 0, 23)
-        elif self.hour.find('/') >= 0:
-            self.hour = self._expand_div(self.hour, 0, 23)
-        elif self.hour.find(',') >= 0:
-            self.hour = self._expand_list(self.hour, 0, 23)
-        elif self.hour.find('*') >= 0:
-            self.hour = self._expand_all(self.hour, 0, 23)
+        if self.hour:
+            if self.hour.find('-') >= 0:
+                self.hour = self._expand_range(self.hour, 0, 23)
+            elif self.hour.find('/') >= 0:
+                self.hour = self._expand_div(self.hour, 0, 23)
+            elif self.hour.find(',') >= 0:
+                self.hour = self._expand_list(self.hour, 0, 23)
+            elif self.hour.find('*') >= 0:
+                self.hour = self._expand_all(self.hour, 0, 23)
 
         # check our methods didn't return empty strings (indicative of err)
-        return False if self.hour == '' else True
+        return True if self.hour else False
 
     def validate_day_of_month(self):
         """
@@ -199,17 +201,18 @@ class CronTab(object):
         >>> foo.validate_day_of_month()
         False
         """
-        if self.day_of_month.find('-') >= 0:
-            self.day_of_month = self._expand_range(self.day_of_month, 0, 31)
-        elif self.day_of_month.find('/') >= 0:
-            self.day_of_month = self._expand_div(self.day_of_month, 0, 31)
-        elif self.day_of_month.find(',') >= 0:
-            self.day_of_month = self._expand_list(self.day_of_month, 0, 31)
-        elif self.day_of_month.find('*') >= 0:
-            self.day_of_month = self._expand_all(self.day_of_month, 0, 31)
+        if self.day_of_month:
+            if self.day_of_month.find('-') >= 0:
+                self.day_of_month = self._expand_range(self.day_of_month, 0, 31)
+            elif self.day_of_month.find('/') >= 0:
+                self.day_of_month = self._expand_div(self.day_of_month, 0, 31)
+            elif self.day_of_month.find(',') >= 0:
+                self.day_of_month = self._expand_list(self.day_of_month, 0, 31)
+            elif self.day_of_month.find('*') >= 0:
+                self.day_of_month = self._expand_all(self.day_of_month, 0, 31)
 
         # check our methods didn't return empty strings (indicative of err)
-        return False if self.day_of_month == '' else True
+        return True if self.day_of_month else False
 
     def validate_month(self):
         """
@@ -236,19 +239,20 @@ class CronTab(object):
         >>> foo.validate_month()
         False
         """
-        if self.month.find('-') >= 0:
-            self.month = self._expand_range(self.month, 1, 12)
-        elif self.month.find('/') >= 0:
-            self.month = self._expand_div(self.month, 1, 12)
-        elif self.month.find(',') >= 0:
-            self.month = self._expand_list(self.month, 1, 12)
-        elif self.month.find('*') >= 0:
-            self.month = self._expand_all(self.month, 1, 12)
-        else:
-            pass
+        if self.month:
+            if self.month.find('-') >= 0:
+                self.month = self._expand_range(self.month, 1, 12)
+            elif self.month.find('/') >= 0:
+                self.month = self._expand_div(self.month, 1, 12)
+            elif self.month.find(',') >= 0:
+                self.month = self._expand_list(self.month, 1, 12)
+            elif self.month.find('*') >= 0:
+                self.month = self._expand_all(self.month, 1, 12)
+            else:
+                pass
 
         # check our methods didn't return empty strings (indicative of err)
-        return False if self.month == '' else True
+        return True if self.month else False
 
     def validate_day_of_week(self):
         """
@@ -275,19 +279,20 @@ class CronTab(object):
         >>> foo.validate_day_of_week()
         False
         """
-        if self.day_of_week.find('-') >= 0:
-            self.day_of_week = self._expand_range(self.day_of_week, 1, 7)
-        elif self.day_of_week.find(',') >= 0:
-            self.day_of_week = self._expand_list(self.day_of_week, 1, 7)
-        elif self.day_of_week.find('/') >= 0:
-            self.day_of_week = self._expand_div(self.day_of_week, 1, 7)
-        elif self.day_of_week.find('*') >= 0:
-            self.day_of_week = self._expand_all(self.day_of_week, 1, 7)
-        else:
-            pass
+        if self.day_of_week:
+            if self.day_of_week.find('-') >= 0:
+                self.day_of_week = self._expand_range(self.day_of_week, 1, 7)
+            elif self.day_of_week.find(',') >= 0:
+                self.day_of_week = self._expand_list(self.day_of_week, 1, 7)
+            elif self.day_of_week.find('/') >= 0:
+                self.day_of_week = self._expand_div(self.day_of_week, 1, 7)
+            elif self.day_of_week.find('*') >= 0:
+                self.day_of_week = self._expand_all(self.day_of_week, 1, 7)
+            else:
+                pass
 
         # check our methods didn't return empty strings (indicative of err)
-        return False if self.day_of_week == '' else True
+        return True if self.day_of_week else False
 
     def _expand_range(self, range_string, range_min, range_max):
         """
@@ -303,19 +308,13 @@ class CronTab(object):
         >>> foo._expand_range('1-3', 1, 7)
         '1 2 3'
         >>> foo._expand_range('0-3', 1, 7)
-        ''
         >>> foo._expand_range('1-26', 0, 59)
         '1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26'
         >>> foo._expand_range('0-7', 1, 7)
-        ''
         >>> foo._expand_range('1-8', 1, 7)
-        ''
         >>> foo._expand_range('0-8', 1, 7)
-        ''
         >>> foo._expand_range('0--1', 1, 7)
-        ''
         >>> foo._expand_range('0-6.9', 1, 7)
-        ''
         """
 
         ranges = range_string.split('-')
@@ -323,7 +322,7 @@ class CronTab(object):
             lower = int(ranges[0])
             upper = int(ranges[1])
         except ValueError:
-            return ''
+            return None
 
         ret_string = ''
 
@@ -333,8 +332,9 @@ class CronTab(object):
                 for member in ret_range:
                     ret_string += str(member)
                     ret_string += ' '
+                return ret_string.strip()
 
-        return ret_string.strip()
+        return None
 
     def _expand_div(self, div_string, range_min, range_max):
         """
@@ -405,11 +405,8 @@ class CronTab(object):
         >>> foo._expand_list('1,2,3,4,5,6,7', 1, 7)
         '1 2 3 4 5 6 7'
         >>> foo._expand_list('1,2,3,4,5,6,7,8', 1, 7)
-        ''
         >>> foo._expand_list('1.2,3,4,5,6,7', 1, 7)
-        ''
         >>> foo._expand_list('1,2,3,4.5,6,7', 1, 7)
-        ''
         """
         ret_string = ''
         list_items = list_string.split(',')
@@ -419,11 +416,11 @@ class CronTab(object):
                 # cast to int, check range, cast back to string and append
                 item_int = int(item)
                 if item_int < range_min or item_int > range_max:
-                    return ''
+                    return None
 
                 ret_string += str(item_int) + ' '
             except (TypeError, ValueError):
-                return ''
+                return None
 
         return ret_string.strip()
 
