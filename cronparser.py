@@ -78,24 +78,6 @@ class CronTab(object):
         (self) -> bool
         Take the 'minute' field of the crontab and validate, then expand to the
         number of times the cron will run, e.g. '*/15' expands to '0 15 30 45'
-        >>> foo = CronTab('0 * * * * ls -la')
-        >>> foo.validate_minute()
-        True
-        >>> foo = CronTab('*/5 * * * * ls -la')
-        >>> foo.validate_minute()
-        True
-        >>> foo = CronTab('* * * * * ls -la')
-        >>> foo.validate_minute()
-        True
-        >>> foo = CronTab('1,2,3 * * * * ls -la')
-        >>> foo.validate_minute()
-        True
-        >>> foo = CronTab('1-59 * * * * ls -la')
-        >>> foo.validate_minute()
-        True
-        >>> foo = CronTab('1-60 * * * * ls -la')
-        >>> foo.validate_minute()
-        False
         """
         if self.minute:
             if self.minute.find('-') >= 0:
@@ -115,25 +97,6 @@ class CronTab(object):
         (self) -> None
         Take the 'hour' field of the crontab and validate, then expand to when
         the cron will run, e.g. '*/4' expands to '0 4 8 12 16 20 24'
-
-        >>> foo = CronTab('* 0 * * * ls -la')
-        >>> foo.validate_hour()
-        True
-        >>> foo = CronTab('* */5 * * * ls -la')
-        >>> foo.validate_hour()
-        True
-        >>> foo = CronTab('* * * * * ls -la')
-        >>> foo.validate_hour()
-        True
-        >>> foo = CronTab('* 1,2,3 * * * ls -la')
-        >>> foo.validate_hour()
-        True
-        >>> foo = CronTab('* 1-23 * * * ls -la')
-        >>> foo.validate_hour()
-        True
-        >>> foo = CronTab('* 1-24 * * * ls -la')
-        >>> foo.validate_hour()
-        False
         """
         if self.hour:
             if self.hour.find('-') >= 0:
@@ -154,25 +117,6 @@ class CronTab(object):
         Take the 'day of month' field of the crontab and validate, then expand
         to when cron will run, e.g. '*' expands to '0 1 2 3 ... 31', shoud  use
         the months to determine max days in the month but running out of time
-
-        >>> foo = CronTab('* * 0 * * ls -la')
-        >>> foo.validate_day_of_month()
-        True
-        >>> foo = CronTab('* * */5 * * ls -la')
-        >>> foo.validate_day_of_month()
-        True
-        >>> foo = CronTab('* * * * * ls -la')
-        >>> foo.validate_day_of_month()
-        True
-        >>> foo = CronTab('* * 1,2,3 * * ls -la')
-        >>> foo.validate_day_of_month()
-        True
-        >>> foo = CronTab('* * 1-23 * * ls -la')
-        >>> foo.validate_day_of_month()
-        True
-        >>> foo = CronTab('* * 1-32 * * ls -la')
-        >>> foo.validate_day_of_month()
-        False
         """
         if self.day_of_month:
             if self.day_of_month.find('-') >= 0:
@@ -192,25 +136,6 @@ class CronTab(object):
         (self) -> None
         Take the 'month' field of the crontab and validate, then expand
         to when cron will run, e.g. '*' expands to '0 1 2 3 ... 12'
-
-        >>> foo = CronTab('* * * 1 * ls -la')
-        >>> foo.validate_month()
-        True
-        >>> foo = CronTab('* * * */2 * ls -la')
-        >>> foo.validate_month()
-        True
-        >>> foo = CronTab('* * * * * ls -la')
-        >>> foo.validate_month()
-        True
-        >>> foo = CronTab('* * * 1,2,3 * ls -la')
-        >>> foo.validate_month()
-        True
-        >>> foo = CronTab('* * * 1-12 * ls -la')
-        >>> foo.validate_month()
-        True
-        >>> foo = CronTab('* * * 1-13 * ls -la')
-        >>> foo.validate_month()
-        False
         """
         if self.month:
             if self.month.find('-') >= 0:
@@ -232,25 +157,6 @@ class CronTab(object):
         (self) -> bool
         Take the 'day of week' field of the crontab and validate, then expand
         to when cron will run, e.g. '*' expands to '0 1 2 3 4 5 6 7'
-
-        >>> foo = CronTab('* * * * 1 ls -la')
-        >>> foo.validate_day_of_week()
-        True
-        >>> foo = CronTab('* * * * */2 ls -la')
-        >>> foo.validate_day_of_week()
-        True
-        >>> foo = CronTab('* * * * * ls -la')
-        >>> foo.validate_day_of_week()
-        True
-        >>> foo = CronTab('* * * * 1,2,3 ls -la')
-        >>> foo.validate_day_of_week()
-        True
-        >>> foo = CronTab('* * * * 1-7 ls -la')
-        >>> foo.validate_day_of_week()
-        True
-        >>> foo = CronTab('* * * * 1-8 ls -la')
-        >>> foo.validate_day_of_week()
-        False
         """
         if self.day_of_week:
             if self.day_of_week.find('-') >= 0:
