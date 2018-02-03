@@ -3,12 +3,13 @@ A command line application written in python which parses a cron string and expa
 
 Time boxing this exercise to three hours of development time. Doesn't handle all possible cron strings. Considering only the standard cron format with five time fields (minute, hour, day of month, month, and day of week) plus a command. Not handling the special time strings such as "@yearly". Also not accepting text input like "JAN" or "WED". The input will be on a single line. All fields are mandatory:
 
-|| Index|| Field        ||Allowed Values||
-| 0     |  minute       | 0-59, `*/,-`  |
-| 1     |  hour         | 0-23, `*/,-`  |
-| 2     |  day of month | 0-31, `*/,-`  |
-| 3     |  month        | 1-12, `*/,-`  |
-| 4     |  day of week  | 1-7,  `*/,-`  |
+| Index | Field         | Allowed Values |
+| ----- | ------------- | -------------- | 
+| 0     |  minute       | 0-59, `*/,-`   |
+| 1     |  hour         | 0-23, `*/,-`   |
+| 2     |  day of month | 0-31, `*/,-`   |
+| 3     |  month        | 1-12, `*/,-`   |
+| 4     |  day of week  | 1-7,  `*/,-`   |
 | 5     |  command      | N/A, no validation necessary |
 
 Specific error checking should be added such that it's not possible to specify, for example the 31st of February.
