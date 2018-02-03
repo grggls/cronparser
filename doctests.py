@@ -123,22 +123,21 @@ def run_validate_tests():
     validate_day_of_week()
     >>> foo = CronTab('* * * * 1 ls -la')
     >>> foo.validate_day_of_week()
-    True
+    '1'
     >>> foo = CronTab('* * * * */2 ls -la')
     >>> foo.validate_day_of_week()
-    True
+    '2 4 6'
     >>> foo = CronTab('* * * * * ls -la')
     >>> foo.validate_day_of_week()
-    True
+    '1 2 3 4 5 6 7'
     >>> foo = CronTab('* * * * 1,2,3 ls -la')
     >>> foo.validate_day_of_week()
-    True
+    '1 2 3'
     >>> foo = CronTab('* * * * 1-7 ls -la')
     >>> foo.validate_day_of_week()
-    True
+    '1 2 3 4 5 6 7'
     >>> foo = CronTab('* * * * 1-8 ls -la')
     >>> foo.validate_day_of_week()
-    False
     """
 
 def run_expand_tests():

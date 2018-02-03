@@ -169,7 +169,7 @@ class CronTab(object):
                 pass
 
         # check our methods didn't return None (indicative of err)
-        return True if self.day_of_week else False
+        return self.day_of_week if self.day_of_week else None
 
     def _expand_range(self, range_string, range_min, range_max):
         """
