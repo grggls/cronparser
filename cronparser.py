@@ -31,10 +31,6 @@ class CronTab(object):
         """
         CronTab constructor expects a newline-delimited string to parse
         (str) -> CronTab
-
-        *** somehow all our tests and validation work down below, but when we
-            pass * to the 'month' field we don't expand it. probably a simple
-            logic error but running out of time here.
         """
 
         # split along whitespace into 6 fields, last field as long as needed
@@ -75,7 +71,7 @@ class CronTab(object):
 
     def validate_minute(self):
         """
-        (self) -> bool
+        (self) -> str
         Take the 'minute' field of the crontab and validate, then expand to the
         number of times the cron will run, e.g. '*/15' expands to '0 15 30 45'
         """
@@ -90,7 +86,7 @@ class CronTab(object):
                 self.minute = self._expand_all(self.minute, 0, 59)
 
         # check our methods didn't return None (indicative of err)
-        return True if self.minute else False
+        return self.minute if self.minute else None
 
     def validate_hour(self):
         """
