@@ -32,33 +32,6 @@ class CronTab(object):
         CronTab constructor expects a newline-delimited string to parse
         (str) -> CronTab
 
-        >>> foo = CronTab('1 2 3 4 5')
-        ERROR: not enough fields in the crontab
-        >>> foo = CronTab('1 2 3 4 5 ls -la')
-        >>> print foo
-        minute        1
-        hour          2
-        day of month  3
-        month         4
-        day of week   5
-        command       ls -la
-        >>> foo = CronTab('1 * 3 4 5 ls -la')
-        >>> print foo
-        minute        1
-        hour          0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
-        day of month  3
-        month         4
-        day of week   5
-        command       ls -la
-        >>> foo = CronTab('*/15 0 1,15 * 1-5 /usr/bin/find')
-        >>> print foo
-        minute        0 15 30 45
-        hour          0
-        day of month  1 15
-        month         1 2 3 4 5 6 7 8 9 10 11 12
-        day of week   1 2 3 4 5
-        command       /usr/bin/find
-
         *** somehow all our tests and validation work down below, but when we
             pass * to the 'month' field we don't expand it. probably a simple
             logic error but running out of time here.
@@ -105,24 +78,6 @@ class CronTab(object):
         (self) -> bool
         Take the 'minute' field of the crontab and validate, then expand to the
         number of times the cron will run, e.g. '*/15' expands to '0 15 30 45'
-        >>> foo = CronTab('0 * * * * ls -la')
-        >>> foo.validate_minute()
-        True
-        >>> foo = CronTab('*/5 * * * * ls -la')
-        >>> foo.validate_minute()
-        True
-        >>> foo = CronTab('* * * * * ls -la')
-        >>> foo.validate_minute()
-        True
-        >>> foo = CronTab('1,2,3 * * * * ls -la')
-        >>> foo.validate_minute()
-        True
-        >>> foo = CronTab('1-59 * * * * ls -la')
-        >>> foo.validate_minute()
-        True
-        >>> foo = CronTab('1-60 * * * * ls -la')
-        >>> foo.validate_minute()
-        False
         """
         if self.minute:
             if self.minute.find('-') >= 0:
@@ -142,25 +97,6 @@ class CronTab(object):
         (self) -> None
         Take the 'hour' field of the crontab and validate, then expand to when
         the cron will run, e.g. '*/4' expands to '0 4 8 12 16 20 24'
-
-        >>> foo = CronTab('* 0 * * * ls -la')
-        >>> foo.validate_hour()
-        True
-        >>> foo = CronTab('* */5 * * * ls -la')
-        >>> foo.validate_hour()
-        True
-        >>> foo = CronTab('* * * * * ls -la')
-        >>> foo.validate_hour()
-        True
-        >>> foo = CronTab('* 1,2,3 * * * ls -la')
-        >>> foo.validate_hour()
-        True
-        >>> foo = CronTab('* 1-23 * * * ls -la')
-        >>> foo.validate_hour()
-        True
-        >>> foo = CronTab('* 1-24 * * * ls -la')
-        >>> foo.validate_hour()
-        False
         """
         if self.hour:
             if self.hour.find('-') >= 0:
@@ -181,25 +117,6 @@ class CronTab(object):
         Take the 'day of month' field of the crontab and validate, then expand
         to when cron will run, e.g. '*' expands to '0 1 2 3 ... 31', shoud  use
         the months to determine max days in the month but running out of time
-
-        >>> foo = CronTab('* * 0 * * ls -la')
-        >>> foo.validate_day_of_month()
-        True
-        >>> foo = CronTab('* * */5 * * ls -la')
-        >>> foo.validate_day_of_month()
-        True
-        >>> foo = CronTab('* * * * * ls -la')
-        >>> foo.validate_day_of_month()
-        True
-        >>> foo = CronTab('* * 1,2,3 * * ls -la')
-        >>> foo.validate_day_of_month()
-        True
-        >>> foo = CronTab('* * 1-23 * * ls -la')
-        >>> foo.validate_day_of_month()
-        True
-        >>> foo = CronTab('* * 1-32 * * ls -la')
-        >>> foo.validate_day_of_month()
-        False
         """
         if self.day_of_month:
             if self.day_of_month.find('-') >= 0:
@@ -219,25 +136,6 @@ class CronTab(object):
         (self) -> None
         Take the 'month' field of the crontab and validate, then expand
         to when cron will run, e.g. '*' expands to '0 1 2 3 ... 12'
-
-        >>> foo = CronTab('* * * 1 * ls -la')
-        >>> foo.validate_month()
-        True
-        >>> foo = CronTab('* * * */2 * ls -la')
-        >>> foo.validate_month()
-        True
-        >>> foo = CronTab('* * * * * ls -la')
-        >>> foo.validate_month()
-        True
-        >>> foo = CronTab('* * * 1,2,3 * ls -la')
-        >>> foo.validate_month()
-        True
-        >>> foo = CronTab('* * * 1-12 * ls -la')
-        >>> foo.validate_month()
-        True
-        >>> foo = CronTab('* * * 1-13 * ls -la')
-        >>> foo.validate_month()
-        False
         """
         if self.month:
             if self.month.find('-') >= 0:
@@ -259,25 +157,6 @@ class CronTab(object):
         (self) -> bool
         Take the 'day of week' field of the crontab and validate, then expand
         to when cron will run, e.g. '*' expands to '0 1 2 3 4 5 6 7'
-
-        >>> foo = CronTab('* * * * 1 ls -la')
-        >>> foo.validate_day_of_week()
-        True
-        >>> foo = CronTab('* * * * */2 ls -la')
-        >>> foo.validate_day_of_week()
-        True
-        >>> foo = CronTab('* * * * * ls -la')
-        >>> foo.validate_day_of_week()
-        True
-        >>> foo = CronTab('* * * * 1,2,3 ls -la')
-        >>> foo.validate_day_of_week()
-        True
-        >>> foo = CronTab('* * * * 1-7 ls -la')
-        >>> foo.validate_day_of_week()
-        True
-        >>> foo = CronTab('* * * * 1-8 ls -la')
-        >>> foo.validate_day_of_week()
-        False
         """
         if self.day_of_week:
             if self.day_of_week.find('-') >= 0:
@@ -303,18 +182,7 @@ class CronTab(object):
 
         Validate this is valid input (e.g. '0-8' is not valid day of week range)
 
-        Retun an None to indicate an out of range error to the caller
-        >>> foo = CronTab('* * * * * ls -la')
-        >>> foo._expand_range('1-3', 1, 7)
-        '1 2 3'
-        >>> foo._expand_range('0-3', 1, 7)
-        >>> foo._expand_range('1-26', 0, 59)
-        '1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26'
-        >>> foo._expand_range('0-7', 1, 7)
-        >>> foo._expand_range('1-8', 1, 7)
-        >>> foo._expand_range('0-8', 1, 7)
-        >>> foo._expand_range('0--1', 1, 7)
-        >>> foo._expand_range('0-6.9', 1, 7)
+        Retun a None to indicate an out of range error to the caller
         """
 
         ranges = range_string.split('-')
@@ -346,21 +214,6 @@ class CronTab(object):
         Validate that this is valid input (e.g. */27 is not valid for hours)
 
         Return None to indicate an out of range error to the caller
-        >>> foo = CronTab('* * * * * ls -la')
-        >>> foo._expand_div('*/4', 0, 23)
-        '0 4 8 12 16 20'
-        >>> foo._expand_div('*/1', 1, 7)
-        '1 2 3 4 5 6 7'
-        >>> foo._expand_div('1/3', 0, 367)
-        ''
-        >>> foo._expand_div('*/27', 0, 23)
-        ''
-        >>> foo._expand_div('*//2', 1, 23)
-        ''
-        >>> foo._expand_div('*/2.5', 1, 23)
-        ''
-        >>> foo._expand_div('*', 1, 7)
-        ''
         """
 
         ret_string = ''
@@ -399,14 +252,6 @@ class CronTab(object):
         space delimited list (no commas).
 
         Return None to indicate any error to the caller
-        >>> foo = CronTab('* * * * * ls -la')
-        >>> foo._expand_list('1,2,3', 1, 7)
-        '1 2 3'
-        >>> foo._expand_list('1,2,3,4,5,6,7', 1, 7)
-        '1 2 3 4 5 6 7'
-        >>> foo._expand_list('1,2,3,4,5,6,7,8', 1, 7)
-        >>> foo._expand_list('1.2,3,4,5,6,7', 1, 7)
-        >>> foo._expand_list('1,2,3,4.5,6,7', 1, 7)
         """
         ret_string = ''
         list_items = list_string.split(',')
@@ -432,11 +277,6 @@ class CronTab(object):
         Hopefully requires much less error checking than the previous two methods
 
         Return None to indicate an out of range error to the caller
-        >>> foo = CronTab('* * * * * ls -la')
-        >>> foo._expand_all('*', 1, 7)
-        '1 2 3 4 5 6 7'
-        >>> foo._expand_all('&', 1, 7)
-        ''
         """
         ret_string = ''
 

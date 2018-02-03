@@ -1,5 +1,12 @@
-default: test
+default : lint test run
 		
-test:
+lint:
 		pylint ./cronparser.py || \
-		python -mdoctest ./cronparser.py
+		pylint ./doctests.py
+
+test:
+		python -mdoctest ./doctests.py -v
+
+run:
+		python ./cronparser.py 1 2 3 4 5 ifconfig -a
+		python ./cronparser.py 1-2 3-4 1-2 3-4 1-2 ls -la
