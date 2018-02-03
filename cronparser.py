@@ -37,9 +37,6 @@ class CronTab(object):
         try:
             split = crontab.split(None, 5)
 
-            # the 'validate_*' methods are pretty gross, in that they change
-            # object attributes, then return a bool. also causing this nesting
-            # nightmare. But it works!
             self.minute = split[0]
             if self.validate_minute():
                 self.hour = split[1]
@@ -74,6 +71,7 @@ class CronTab(object):
         (self) -> str
         Take the 'minute' field of the crontab and validate, then expand to the
         number of times the cron will run, e.g. '*/15' expands to '0 15 30 45'
+        Return the string it expands to or None
         """
         if self.minute:
             if self.minute.find('-') >= 0:
@@ -90,9 +88,10 @@ class CronTab(object):
 
     def validate_hour(self):
         """
-        (self) -> None
+        (self) -> str
         Take the 'hour' field of the crontab and validate, then expand to when
         the cron will run, e.g. '*/4' expands to '0 4 8 12 16 20 24'
+        Return the string it expands to or None
         """
         if self.hour:
             if self.hour.find('-') >= 0:
@@ -105,7 +104,7 @@ class CronTab(object):
                 self.hour = self._expand_all(self.hour, 0, 23)
 
         # check our methods didn't return None (indicative of err)
-        return True if self.hour else False
+        return self.hour if self.hour else None
 
     def validate_day_of_month(self):
         """
@@ -113,6 +112,7 @@ class CronTab(object):
         Take the 'day of month' field of the crontab and validate, then expand
         to when cron will run, e.g. '*' expands to '0 1 2 3 ... 31', shoud  use
         the months to determine max days in the month but running out of time
+        Return the string it expands to or None
         """
         if self.day_of_month:
             if self.day_of_month.find('-') >= 0:
@@ -132,6 +132,7 @@ class CronTab(object):
         (self) -> None
         Take the 'month' field of the crontab and validate, then expand
         to when cron will run, e.g. '*' expands to '0 1 2 3 ... 12'
+        Return the string it expands to or None
         """
         if self.month:
             if self.month.find('-') >= 0:
@@ -153,6 +154,7 @@ class CronTab(object):
         (self) -> bool
         Take the 'day of week' field of the crontab and validate, then expand
         to when cron will run, e.g. '*' expands to '0 1 2 3 4 5 6 7'
+        Return the string it expands to or None
         """
         if self.day_of_week:
             if self.day_of_week.find('-') >= 0:

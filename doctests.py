@@ -66,22 +66,21 @@ def run_validate_tests():
     # validate_hour() tests
     >>> foo = CronTab('* 0 * * * ls -la')
     >>> foo.validate_hour()
-    True
+    '0'
     >>> foo = CronTab('* */5 * * * ls -la')
     >>> foo.validate_hour()
-    True
+    '0 5 10 15 20'
     >>> foo = CronTab('* * * * * ls -la')
     >>> foo.validate_hour()
-    True
+    '0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23'
     >>> foo = CronTab('* 1,2,3 * * * ls -la')
     >>> foo.validate_hour()
-    True
+    '1 2 3'
     >>> foo = CronTab('* 1-23 * * * ls -la')
     >>> foo.validate_hour()
-    True
+    '1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23'
     >>> foo = CronTab('* 1-24 * * * ls -la')
     >>> foo.validate_hour()
-    False
 
     # validate_day_of_month()
     >>> foo = CronTab('* * 0 * * ls -la')
