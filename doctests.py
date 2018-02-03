@@ -47,102 +47,97 @@ def run_validate_tests():
     # validate_minute() tests
     >>> foo = CronTab('0 * * * * ls -la')
     >>> foo.validate_minute()
-    True
+    '0'
     >>> foo = CronTab('*/5 * * * * ls -la')
     >>> foo.validate_minute()
-    True
-    >>> foo = CronTab('* * * * * ls -la')
+    '0 5 10 15 20 25 30 35 40 45 50 55'
+    >>> foo = CronTab('*/10 * * * * ls -la')
     >>> foo.validate_minute()
-    True
+    '0 10 20 30 40 50'
     >>> foo = CronTab('1,2,3 * * * * ls -la')
     >>> foo.validate_minute()
-    True
-    >>> foo = CronTab('1-59 * * * * ls -la')
+    '1 2 3'
+    >>> foo = CronTab('57-59 * * * * ls -la')
     >>> foo.validate_minute()
-    True
+    '57 58 59'
     >>> foo = CronTab('1-60 * * * * ls -la')
     >>> foo.validate_minute()
-    False
 
     # validate_hour() tests
     >>> foo = CronTab('* 0 * * * ls -la')
     >>> foo.validate_hour()
-    True
+    '0'
     >>> foo = CronTab('* */5 * * * ls -la')
     >>> foo.validate_hour()
-    True
+    '0 5 10 15 20'
     >>> foo = CronTab('* * * * * ls -la')
     >>> foo.validate_hour()
-    True
+    '0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23'
     >>> foo = CronTab('* 1,2,3 * * * ls -la')
     >>> foo.validate_hour()
-    True
+    '1 2 3'
     >>> foo = CronTab('* 1-23 * * * ls -la')
     >>> foo.validate_hour()
-    True
+    '1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23'
     >>> foo = CronTab('* 1-24 * * * ls -la')
     >>> foo.validate_hour()
-    False
 
     # validate_day_of_month()
     >>> foo = CronTab('* * 0 * * ls -la')
     >>> foo.validate_day_of_month()
-    True
+    '0'
     >>> foo = CronTab('* * */5 * * ls -la')
     >>> foo.validate_day_of_month()
-    True
+    '0 5 10 15 20 25 30'
     >>> foo = CronTab('* * * * * ls -la')
     >>> foo.validate_day_of_month()
-    True
+    '0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31'
     >>> foo = CronTab('* * 1,2,3 * * ls -la')
     >>> foo.validate_day_of_month()
-    True
+    '1 2 3'
     >>> foo = CronTab('* * 1-23 * * ls -la')
     >>> foo.validate_day_of_month()
-    True
+    '1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23'
     >>> foo = CronTab('* * 1-32 * * ls -la')
     >>> foo.validate_day_of_month()
-    False
 
     # validate_month()
     >>> foo = CronTab('* * * 1 * ls -la')
     >>> foo.validate_month()
-    True
+    '1'
     >>> foo = CronTab('* * * */2 * ls -la')
     >>> foo.validate_month()
-    True
+    '2 4 6 8 10 12'
     >>> foo = CronTab('* * * * * ls -la')
     >>> foo.validate_month()
-    True
+    '1 2 3 4 5 6 7 8 9 10 11 12'
     >>> foo = CronTab('* * * 1,2,3 * ls -la')
     >>> foo.validate_month()
-    True
-    >>> foo = CronTab('* * * 1-12 * ls -la')
+    '1 2 3'
+    >>> foo = CronTab('* * * 2-11 * ls -la')
     >>> foo.validate_month()
-    True
+    '2 3 4 5 6 7 8 9 10 11'
     >>> foo = CronTab('* * * 1-13 * ls -la')
     >>> foo.validate_month()
-    False
 
     validate_day_of_week()
     >>> foo = CronTab('* * * * 1 ls -la')
     >>> foo.validate_day_of_week()
-    True
+    '1'
     >>> foo = CronTab('* * * * */2 ls -la')
     >>> foo.validate_day_of_week()
-    True
+    '2 4 6'
     >>> foo = CronTab('* * * * * ls -la')
     >>> foo.validate_day_of_week()
-    True
+    '1 2 3 4 5 6 7'
     >>> foo = CronTab('* * * * 1,2,3 ls -la')
     >>> foo.validate_day_of_week()
-    True
+    '1 2 3'
     >>> foo = CronTab('* * * * 1-7 ls -la')
     >>> foo.validate_day_of_week()
-    True
+    '1 2 3 4 5 6 7'
     >>> foo = CronTab('* * * * 1-8 ls -la')
     >>> foo.validate_day_of_week()
-    False
     """
 
 def run_expand_tests():
