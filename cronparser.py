@@ -125,7 +125,7 @@ class CronTab(object):
                 self.day_of_month = self._expand_all(self.day_of_month, 0, 31)
 
         # check our methods didn't return None (indicative of err)
-        return True if self.day_of_month else False
+        return self.day_of_month if self.day_of_month else None
 
     def validate_month(self):
         """
