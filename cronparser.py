@@ -147,7 +147,7 @@ class CronTab(object):
                 pass
 
         # check our methods didn't return None (indicative of err)
-        return True if self.month else False
+        return self.month if self.month else None
 
     def validate_day_of_week(self):
         """

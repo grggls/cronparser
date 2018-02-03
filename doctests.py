@@ -104,22 +104,21 @@ def run_validate_tests():
     # validate_month()
     >>> foo = CronTab('* * * 1 * ls -la')
     >>> foo.validate_month()
-    True
+    '1'
     >>> foo = CronTab('* * * */2 * ls -la')
     >>> foo.validate_month()
-    True
+    '2 4 6 8 10 12'
     >>> foo = CronTab('* * * * * ls -la')
     >>> foo.validate_month()
-    True
+    '1 2 3 4 5 6 7 8 9 10 11 12'
     >>> foo = CronTab('* * * 1,2,3 * ls -la')
     >>> foo.validate_month()
-    True
-    >>> foo = CronTab('* * * 1-12 * ls -la')
+    '1 2 3'
+    >>> foo = CronTab('* * * 2-11 * ls -la')
     >>> foo.validate_month()
-    True
+    '2 3 4 5 6 7 8 9 10 11'
     >>> foo = CronTab('* * * 1-13 * ls -la')
     >>> foo.validate_month()
-    False
 
     validate_day_of_week()
     >>> foo = CronTab('* * * * 1 ls -la')
