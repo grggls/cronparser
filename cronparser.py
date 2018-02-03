@@ -182,18 +182,7 @@ class CronTab(object):
 
         Validate this is valid input (e.g. '0-8' is not valid day of week range)
 
-        Retun an None to indicate an out of range error to the caller
-        >>> foo = CronTab('* * * * * ls -la')
-        >>> foo._expand_range('1-3', 1, 7)
-        '1 2 3'
-        >>> foo._expand_range('0-3', 1, 7)
-        >>> foo._expand_range('1-26', 0, 59)
-        '1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26'
-        >>> foo._expand_range('0-7', 1, 7)
-        >>> foo._expand_range('1-8', 1, 7)
-        >>> foo._expand_range('0-8', 1, 7)
-        >>> foo._expand_range('0--1', 1, 7)
-        >>> foo._expand_range('0-6.9', 1, 7)
+        Retun a None to indicate an out of range error to the caller
         """
 
         ranges = range_string.split('-')
@@ -225,21 +214,6 @@ class CronTab(object):
         Validate that this is valid input (e.g. */27 is not valid for hours)
 
         Return None to indicate an out of range error to the caller
-        >>> foo = CronTab('* * * * * ls -la')
-        >>> foo._expand_div('*/4', 0, 23)
-        '0 4 8 12 16 20'
-        >>> foo._expand_div('*/1', 1, 7)
-        '1 2 3 4 5 6 7'
-        >>> foo._expand_div('1/3', 0, 367)
-        ''
-        >>> foo._expand_div('*/27', 0, 23)
-        ''
-        >>> foo._expand_div('*//2', 1, 23)
-        ''
-        >>> foo._expand_div('*/2.5', 1, 23)
-        ''
-        >>> foo._expand_div('*', 1, 7)
-        ''
         """
 
         ret_string = ''
@@ -278,14 +252,6 @@ class CronTab(object):
         space delimited list (no commas).
 
         Return None to indicate any error to the caller
-        >>> foo = CronTab('* * * * * ls -la')
-        >>> foo._expand_list('1,2,3', 1, 7)
-        '1 2 3'
-        >>> foo._expand_list('1,2,3,4,5,6,7', 1, 7)
-        '1 2 3 4 5 6 7'
-        >>> foo._expand_list('1,2,3,4,5,6,7,8', 1, 7)
-        >>> foo._expand_list('1.2,3,4,5,6,7', 1, 7)
-        >>> foo._expand_list('1,2,3,4.5,6,7', 1, 7)
         """
         ret_string = ''
         list_items = list_string.split(',')
@@ -311,11 +277,6 @@ class CronTab(object):
         Hopefully requires much less error checking than the previous two methods
 
         Return None to indicate an out of range error to the caller
-        >>> foo = CronTab('* * * * * ls -la')
-        >>> foo._expand_all('*', 1, 7)
-        '1 2 3 4 5 6 7'
-        >>> foo._expand_all('&', 1, 7)
-        ''
         """
         ret_string = ''
 

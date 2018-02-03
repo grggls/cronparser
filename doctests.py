@@ -1,13 +1,18 @@
-import sys
-from os import path
-sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
-from cronparser import CronTab as CronTab
+"""This is a doctest based regression suite for cronparser.py Each '>>>' line
+is run as if in a python shell, and counts as a test. The next line, if not
+'>>>' is the expected output of the previous line. If anything doesn't match
+exactly (including trailing spaces), the test fails.
+
+Run these tests with 'make test'"""
+
+from cronparser import CronTab
 
 if __name__ == '__main__':
     import doctest
-    run_CronTab_tests()
+    doctest.testmod()
+    CronTab('* * * * * df -h')
 
-def run_CronTab_tests():
+def run_init_tests():
     """
     >>> foo = CronTab('1 2 3 4 5')
     ERROR: not enough fields in the crontab
@@ -58,7 +63,7 @@ def run_validate_tests():
     >>> foo = CronTab('1-60 * * * * ls -la')
     >>> foo.validate_minute()
     False
-        
+
     # validate_hour() tests
     >>> foo = CronTab('* 0 * * * ls -la')
     >>> foo.validate_hour()
@@ -78,7 +83,7 @@ def run_validate_tests():
     >>> foo = CronTab('* 1-24 * * * ls -la')
     >>> foo.validate_hour()
     False
-        
+
     # validate_day_of_month()
     >>> foo = CronTab('* * 0 * * ls -la')
     >>> foo.validate_day_of_month()
@@ -138,3 +143,53 @@ def run_validate_tests():
     >>> foo = CronTab('* * * * 1-8 ls -la')
     >>> foo.validate_day_of_week()
     False
+    """
+
+def run_expand_tests():
+    """
+    # _expand_range()
+    >>> foo = CronTab('* * * * * ls -la')
+    >>> foo._expand_range('1-3', 1, 7)
+    '1 2 3'
+    >>> foo._expand_range('0-3', 1, 7)
+    >>> foo._expand_range('1-26', 0, 59)
+    '1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26'
+    >>> foo._expand_range('0-7', 1, 7)
+    >>> foo._expand_range('1-8', 1, 7)
+    >>> foo._expand_range('0-8', 1, 7)
+    >>> foo._expand_range('0--1', 1, 7)
+    >>> foo._expand_range('0-6.9', 1, 7)
+
+    # _expand_div()
+    >>> foo = CronTab('* * * * * ls -la')
+    >>> foo._expand_div('*/4', 0, 23)
+    '0 4 8 12 16 20'
+    >>> foo._expand_div('*/1', 1, 7)
+    '1 2 3 4 5 6 7'
+    >>> foo._expand_div('1/3', 0, 367)
+    ''
+    >>> foo._expand_div('*/27', 0, 23)
+    ''
+    >>> foo._expand_div('*//2', 1, 23)
+    ''
+    >>> foo._expand_div('*/2.5', 1, 23)
+    ''
+    >>> foo._expand_div('*', 1, 7)
+    ''
+
+    # _expand_list()
+    >>> foo = CronTab('* * * * * ls -la')
+    >>> foo._expand_list('1,2,3', 1, 7)
+    '1 2 3'
+    >>> foo._expand_list('1,2,3,4,5,6,7', 1, 7)
+    '1 2 3 4 5 6 7'
+    >>> foo._expand_list('1,2,3,4,5,6,7,8', 1, 7)
+    >>> foo._expand_list('1.2,3,4,5,6,7', 1, 7)
+    >>> foo._expand_list('1,2,3,4.5,6,7', 1, 7)
+
+    >>> foo = CronTab('* * * * * ls -la')
+    >>> foo._expand_all('*', 1, 7)
+    '1 2 3 4 5 6 7'
+    >>> foo._expand_all('&', 1, 7)
+    ''
+    """
