@@ -6,6 +6,7 @@ exactly (including trailing spaces), the test fails.
 Run these tests with 'make test'"""
 
 from cronparser import CronTab
+from cronparser import helpers
 
 if __name__ == '__main__':
     import doctest
@@ -140,51 +141,51 @@ def run_validate_tests():
     >>> foo.validate_day_of_week()
     """
 
-def run_expand_tests():
+def runexpand_tests():
     """
-    # _expand_range()
+    # expand_range()
     >>> foo = CronTab('* * * * * ls -la')
-    >>> foo._expand_range('1-3', 1, 7)
+    >>> helpers.expand_range('1-3', 1, 7)
     '1 2 3'
-    >>> foo._expand_range('0-3', 1, 7)
-    >>> foo._expand_range('1-26', 0, 59)
+    >>> helpers.expand_range('0-3', 1, 7)
+    >>> helpers.expand_range('1-26', 0, 59)
     '1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26'
-    >>> foo._expand_range('0-7', 1, 7)
-    >>> foo._expand_range('1-8', 1, 7)
-    >>> foo._expand_range('0-8', 1, 7)
-    >>> foo._expand_range('0--1', 1, 7)
-    >>> foo._expand_range('0-6.9', 1, 7)
+    >>> helpers.expand_range('0-7', 1, 7)
+    >>> helpers.expand_range('1-8', 1, 7)
+    >>> helpers.expand_range('0-8', 1, 7)
+    >>> helpers.expand_range('0--1', 1, 7)
+    >>> helpers.expand_range('0-6.9', 1, 7)
 
-    # _expand_div()
+    # expand_div()
     >>> foo = CronTab('* * * * * ls -la')
-    >>> foo._expand_div('*/4', 0, 23)
+    >>> helpers.expand_div('*/4', 0, 23)
     '0 4 8 12 16 20'
-    >>> foo._expand_div('*/1', 1, 7)
+    >>> helpers.expand_div('*/1', 1, 7)
     '1 2 3 4 5 6 7'
-    >>> foo._expand_div('1/3', 0, 367)
+    >>> helpers.expand_div('1/3', 0, 367)
     ''
-    >>> foo._expand_div('*/27', 0, 23)
+    >>> helpers.expand_div('*/27', 0, 23)
     ''
-    >>> foo._expand_div('*//2', 1, 23)
+    >>> helpers.expand_div('*//2', 1, 23)
     ''
-    >>> foo._expand_div('*/2.5', 1, 23)
+    >>> helpers.expand_div('*/2.5', 1, 23)
     ''
-    >>> foo._expand_div('*', 1, 7)
+    >>> helpers.expand_div('*', 1, 7)
     ''
 
-    # _expand_list()
+    # expand_list()
     >>> foo = CronTab('* * * * * ls -la')
-    >>> foo._expand_list('1,2,3', 1, 7)
+    >>> helpers.expand_list('1,2,3', 1, 7)
     '1 2 3'
-    >>> foo._expand_list('1,2,3,4,5,6,7', 1, 7)
+    >>> helpers.expand_list('1,2,3,4,5,6,7', 1, 7)
     '1 2 3 4 5 6 7'
-    >>> foo._expand_list('1,2,3,4,5,6,7,8', 1, 7)
-    >>> foo._expand_list('1.2,3,4,5,6,7', 1, 7)
-    >>> foo._expand_list('1,2,3,4.5,6,7', 1, 7)
+    >>> helpers.expand_list('1,2,3,4,5,6,7,8', 1, 7)
+    >>> helpers.expand_list('1.2,3,4,5,6,7', 1, 7)
+    >>> helpers.expand_list('1,2,3,4.5,6,7', 1, 7)
 
     >>> foo = CronTab('* * * * * ls -la')
-    >>> foo._expand_all('*', 1, 7)
+    >>> helpers.expand_all('*', 1, 7)
     '1 2 3 4 5 6 7'
-    >>> foo._expand_all('&', 1, 7)
+    >>> helpers.expand_all('&', 1, 7)
     ''
     """

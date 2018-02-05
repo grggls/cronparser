@@ -8,5 +8,5 @@ test:
 		python -mdoctest ./tests/doctests.py -v
 
 run:
-		python ./cronparser/__init__.py 1 2 3 4 5 ifconfig -a
-		python ./cronparser/__init__.py 1-2 3-4 1-2 3-4 1-2 ls -la
+		python -m cronparser.__init__ 1 2 3 4 5 ifconfig -a
+		python -m cronparser.__init__ 1-2 3-4 1-2 3-4 1-2 ls -la
