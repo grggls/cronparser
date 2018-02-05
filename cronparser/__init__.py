@@ -37,20 +37,18 @@ class CronTab(object):
         # split along whitespace into 6 fields, last field as long as needed
         try:
             split = crontab.split(None, 5)
+            self.minute, self.hour, self.day_of_month, self.month, self.day_of_week = \
+                split[0:5]
+            self.command = split[5]
 
-            self.minute = split[0]
-            if self.validate_minute():
-                self.hour = split[1]
-                if self.validate_hour():
-                    self.day_of_month = split[2]
-                    if self.validate_day_of_month():
-                        self.month = split[3]
-                        if self.validate_month():
-                            self.day_of_week = split[4]
-                            if self.validate_day_of_week():
-                                self.command = split[5]
+            self.minute = self.validate_minute()
+            self.hour = self.validate_hour()
+            self.day_of_month = self.validate_day_of_month()
+            self.month = self.validate_month()
+            self.day_of_week = self.validate_day_of_week()
         except IndexError:
             print 'ERROR: not enough fields in the crontab'
+            return
 
     def __str__(self):
         """
