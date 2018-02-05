@@ -176,7 +176,4 @@ class CronTab(object):
 if __name__ == '__main__':
     # grab cmd args, drop the name of the script, create CronTab, print
     import sys
-    args = sys.argv
-    cron = ' '.join(args[1:])
-    cron = CronTab(cron)
-    print cron
+    print CronTab(' '.join(sys.argv[1:]))
