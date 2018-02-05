@@ -144,7 +144,6 @@ def run_validate_tests():
 def runexpand_tests():
     """
     # expand_range()
-    >>> foo = CronTab('* * * * * ls -la')
     >>> helpers.expand_range('1-3', 1, 7)
     '1 2 3'
     >>> helpers.expand_range('0-3', 1, 7)
@@ -157,7 +156,6 @@ def runexpand_tests():
     >>> helpers.expand_range('0-6.9', 1, 7)
 
     # expand_div()
-    >>> foo = CronTab('* * * * * ls -la')
     >>> helpers.expand_div('*/4', 0, 23)
     '0 4 8 12 16 20'
     >>> helpers.expand_div('*/1', 1, 7)
@@ -174,7 +172,6 @@ def runexpand_tests():
     ''
 
     # expand_list()
-    >>> foo = CronTab('* * * * * ls -la')
     >>> helpers.expand_list('1,2,3', 1, 7)
     '1 2 3'
     >>> helpers.expand_list('1,2,3,4,5,6,7', 1, 7)
@@ -183,7 +180,7 @@ def runexpand_tests():
     >>> helpers.expand_list('1.2,3,4,5,6,7', 1, 7)
     >>> helpers.expand_list('1,2,3,4.5,6,7', 1, 7)
 
-    >>> foo = CronTab('* * * * * ls -la')
+    # expand_all()
     >>> helpers.expand_all('*', 1, 7)
     '1 2 3 4 5 6 7'
     >>> helpers.expand_all('&', 1, 7)
